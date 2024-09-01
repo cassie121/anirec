@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Recommendations</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #results { margin-top: 20px; }
+    .anime-item { margin-bottom: 10px; }
+    .anime-item img { max-width: 100px; }
+  </style>
+</head>
+<body>
+  <h1>Find Anime Recommendations</h1>
+  <input type="text" id="animeTitle" placeholder="Enter anime title">
+  <button id="searchButton">Search</button>
+  <div id="results"></div>
+
+  <script>
+    document.getElementById('searchButton').addEventListener('click', async () => {
+      const title = document.getElementById('animeTitle').value;
+      if (!title) {
+        alert("Please enter an anime title.");
+        return;
+      }
+      const recommendations = await getAnimeRecommendations(title);
+      displayRecommendations(recommendations);
+    });
+
+    async function getAnimeRecommendations(query) {
+      const response = await fetch(`https://api.jikan.moe/v4/recommendations?q=${query}`);
+      const data = await response.json();
+      return data.data; // Adjust this depending on the response structure
+    }
+
+    function displayRecommendations(recommendations) {
+      const resultsDiv = document.getElementById('results');
+      resultsDiv.innerHTML = '';
+      recommendations.forEach(rec => {
+        const item = document.createElement('div');
+        item.classList.add('anime-item');
+        item.innerHTML = `
+          <img src="${rec.image_url}" alt="${rec.title}">
+          <p>${rec.title}</p>
+        `;
+        resultsDiv.appendChild(item);
+      });
+    }
+  </script>
+</body>
+</html>
