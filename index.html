@@ -17,9 +17,9 @@
   <div id="results"></div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
     const animeTitles = [
-   {"title": "Restaurant to Another World", "genre": "Fantasy"},
+      // Your list of anime titles
+             {"title": "Restaurant to Another World", "genre": "Fantasy"},
     {"title": "Demon Slayer: Kimetsu no Yaiba", "genre": "Action, Fantasy"},
     {"title": "That Time I Got Reincarnated as a Slime", "genre": "Fantasy, Isekai"},
     {"title": "Chainsaw Man", "genre": "Action, Supernatural"},
@@ -331,7 +331,7 @@
     {"title": "How a Realist Hero Rebuilt the Kingdom", "genre": "Fantasy, Isekai"},
     {"title": "The World's Finest Assassin Gets Reincarnated in Another World as an Aristocrat", "genre": "Fantasy, Isekai"},
     {"title": "The Slime Diaries", "genre": "Fantasy, Comedy"},
-    {"title": "My Clueless First Friend", "genre": "Comedy, Slice of Life"},
+  {"title": "My Clueless First Friend", "genre": "Comedy, Slice of Life"},
     {"title": "A Galaxy Next Door", "genre": "Romance, Fantasy"},
     {"title": "The Dangers in My Heart", "genre": "Romance, Comedy"},
     {"title": "Anohana: The Flower We Saw That Day", "genre": "Drama, Slice of Life"},
@@ -413,50 +413,43 @@
     {"title": "The Girl From the Other Side: Siuil, a Run (2022)", "genre": "Fantasy, Mystery"},
     {"title": "Haven't You Heard? I'm Sakamoto", "genre": "Comedy, Slice of Life"},
     {"title": "Boys Over Flowers", "genre": "Romance, Drama"}
-]
-       const genreSelect = document.getElementById('genre');
-  const animeList = document.getElementById('anime-list');
+      // ... (other anime titles)
+    ];
 
-  function filterAnime() {
-    const genre = genreSelect.value;
+    function searchAnime() {
+      const searchTerm = document.getElementById('animeTitle').value.toLowerCase();
+      const resultsDiv = document.getElementById('results');
 
-    const filteredAnime = animeData.filter(anime => {
-      return genre === '' || anime.genre === genre;
+      // Clear previous results
+      resultsDiv.innerHTML = '';
+
+      // Filter the animeTitles array based on the search term
+      const filteredAnimes = animeTitles.filter(anime =>
+        anime.title.toLowerCase().includes(searchTerm)
+      );
+
+      // Display the filtered results
+      if (filteredAnimes.length > 0) {
+        filteredAnimes.forEach(anime => {
+          const animeItem = document.createElement('div');
+          animeItem.className = 'anime-item';
+          animeItem.innerHTML = `<strong>${anime.title}</strong> - Genre: ${anime.genre}`;
+          resultsDiv.appendChild(animeItem);
+        });
+      } else {
+        resultsDiv.innerHTML = 'No results found.';
+      }
+    }
+
+    // Event listener for the search button
+    document.getElementById('searchButton').addEventListener('click', searchAnime);
+
+    // Optional: Trigger search on Enter key press
+    document.getElementById('animeTitle').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        searchAnime();
+      }
     });
-
-    displayAnime(filteredAnime);
-  }
-
-  function displayAnime(animeArray) {
-    animeList.innerHTML = '';
-    animeArray.forEach(anime => {
-      const animeItem = document.createElement('div');
-      animeItem.classList.add('anime-item');
-      animeItem.innerHTML = `<h2>${anime.title}</h2><p>Genre: ${anime.genre}</p>`;
-      animeList.appendChild(animeItem);
-    });
-  }
-
-  genreSelect.addEventListener('change', filterAnime);
-
-  // Initial display
-  displayAnime(animeData);
-});
-
- <label for="genre">Genre:</label>
-    <select id="genre">
-      <option value="">All</option>
-      <option value="Action">Action</option>
-      <option value="Fantasy">Fantasy</option>
-      <!-- Add more genres as needed -->
-    </select>
-  </div>
-  
-  <div id="anime-list">
-    <!-- Anime items will be dynamically added here -->
-  </div>
-  
-  <script src="script.js"></script>
+  </script>
 </body>
 </html>
-
