@@ -17,6 +17,7 @@
   <div id="results"></div>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
     const animeTitles = [
    {"title": "Restaurant to Another World", "genre": "Fantasy"},
     {"title": "Demon Slayer: Kimetsu no Yaiba", "genre": "Action, Fantasy"},
@@ -330,7 +331,7 @@
     {"title": "How a Realist Hero Rebuilt the Kingdom", "genre": "Fantasy, Isekai"},
     {"title": "The World's Finest Assassin Gets Reincarnated in Another World as an Aristocrat", "genre": "Fantasy, Isekai"},
     {"title": "The Slime Diaries", "genre": "Fantasy, Comedy"},
-  {"title": "My Clueless First Friend", "genre": "Comedy, Slice of Life"},
+    {"title": "My Clueless First Friend", "genre": "Comedy, Slice of Life"},
     {"title": "A Galaxy Next Door", "genre": "Romance, Fantasy"},
     {"title": "The Dangers in My Heart", "genre": "Romance, Comedy"},
     {"title": "Anohana: The Flower We Saw That Day", "genre": "Drama, Slice of Life"},
@@ -413,6 +414,49 @@
     {"title": "Haven't You Heard? I'm Sakamoto", "genre": "Comedy, Slice of Life"},
     {"title": "Boys Over Flowers", "genre": "Romance, Drama"}
 ]
+       const genreSelect = document.getElementById('genre');
+  const animeList = document.getElementById('anime-list');
 
+  function filterAnime() {
+    const genre = genreSelect.value;
 
+    const filteredAnime = animeData.filter(anime => {
+      return genre === '' || anime.genre === genre;
+    });
+
+    displayAnime(filteredAnime);
+  }
+
+  function displayAnime(animeArray) {
+    animeList.innerHTML = '';
+    animeArray.forEach(anime => {
+      const animeItem = document.createElement('div');
+      animeItem.classList.add('anime-item');
+      animeItem.innerHTML = `<h2>${anime.title}</h2><p>Genre: ${anime.genre}</p>`;
+      animeList.appendChild(animeItem);
+    });
+  }
+
+  genreSelect.addEventListener('change', filterAnime);
+
+  // Initial display
+  displayAnime(animeData);
+});
+
+ <label for="genre">Genre:</label>
+    <select id="genre">
+      <option value="">All</option>
+      <option value="Action">Action</option>
+      <option value="Fantasy">Fantasy</option>
+      <!-- Add more genres as needed -->
+    </select>
+  </div>
+  
+  <div id="anime-list">
+    <!-- Anime items will be dynamically added here -->
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
 
